@@ -1,4 +1,5 @@
 # Ribes RPC
+[![Latest PyPI package version](https://badge.fury.io/py/ribes.svg)](https://pypi.org/project/ribes)  
 Async framework for JSON-RPC via RabbitMQ
 
 ## Key feature
