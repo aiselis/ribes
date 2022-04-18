@@ -1,0 +1,13 @@
+coverage
+flake8
+isort
+pytest
+pytest-asyncio
+pytest-cov
+pytest-sugar
+pytest-timeout
+aio_pika
+pydantic
+python-dateutil
+mkdocs
+mkdocs-material
