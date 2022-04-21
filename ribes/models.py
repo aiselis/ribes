@@ -15,7 +15,7 @@
 
 from typing import Union, Optional, List, Any, Dict
 
-from pydantic import BaseModel, StrictInt
+from pydantic import BaseModel, StrictInt, validator
 
 
 class JsonRpcRequest(BaseModel):
@@ -23,6 +23,13 @@ class JsonRpcRequest(BaseModel):
     method: str
     params: Optional[Union[List[Any], Dict[str, Any]]]
     id: Optional[StrictInt]
+
+    class Config:
+        validate_assignment = True
+
+    @validator('params')
+    def set_name(cls, params):
+        return params or []
 
 
 class JsonRpcResponse(BaseModel):

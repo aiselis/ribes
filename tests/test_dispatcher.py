@@ -54,7 +54,9 @@ def function_factory():
         def fuzzy(a: int, b: str, c: ExampleModel):
             pass
 
-        fuzzy.__name__ = "renamed"
+        def no_parameter():
+            pass
+
         return locals()[func]
 
     return _factory
@@ -117,6 +119,7 @@ def test_register(function_factory, func):
         ("async_func", 1, ["3", 1], JsonRpcResponse),
         ("async_func", 1, "invalid", JsonRpcError),
         ("fuzzy", 1, ["3", 1], JsonRpcError),
+        ("no_parameter", None, [], None),
     ]
 )
 @pytest.mark.asyncio
@@ -124,10 +127,13 @@ async def test_dispatch(function_factory, func, id, args, expected):
     request = {
         'jsonrpc': '2.0',
         'method': func,
-        'params': args,
+        'params': args or None,
         'id': id
     }
     dispatcher = Dispatcher()
     dispatcher.register(func, function_factory(func))
     result = await dispatcher.dispatch(json.dumps(request))
-    assert expected(**json.loads(result))
+    if expected:
+        assert expected(**json.loads(result))
+    else:
+        assert not result
