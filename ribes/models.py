@@ -21,14 +21,14 @@ from pydantic import BaseModel, StrictInt, validator
 class JsonRpcRequest(BaseModel):
     jsonrpc: str = "2.0"
     method: str
-    params: Optional[Union[List[Any], Dict[str, Any]]]
+    params: Optional[Union[List[Any], Dict[str, Any]]] = []
     id: Optional[StrictInt]
 
     class Config:
         validate_assignment = True
 
     @validator('params')
-    def set_name(cls, params):
+    def set_params(cls, params):
         return params or []
 
 
